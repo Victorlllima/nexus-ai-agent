@@ -26,6 +26,33 @@ export async function POST(request: NextRequest) {
       config
     } = body;
 
+    // Busca ou cria um agente padrão
+    let agent;
+    const { data: existingAgent } = await supabase
+      .from('agents')
+      .select('*')
+      .limit(1)
+      .single();
+
+    if (existingAgent) {
+      agent = existingAgent;
+    } else {
+      // Cria agente padrão se não existir
+      const { data: newAgent, error: agentError } = await supabase
+        .from('agents')
+        .insert({
+          name: 'Nexus AI Agent',
+          model: 'gpt-4o-mini',
+          system_prompt: 'Você é um assistente virtual prestativo e amigável.',
+          temperature: 0.7
+        })
+        .select()
+        .single();
+
+      if (agentError) throw agentError;
+      agent = newAgent;
+    }
+
     // Verifica se já existe uma configuração de WhatsApp
     const { data: existing, error: fetchError } = await supabase
       .from('channels')
@@ -34,6 +61,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     const channelConfig = {
+      agent_id: agent.id,
       type: mode === 'web' ? 'whatsapp_web' : 'whatsapp_meta',
       config: {
         mode,
