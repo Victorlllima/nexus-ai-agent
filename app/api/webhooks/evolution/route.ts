@@ -29,9 +29,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Extrair informações da mensagem
-    const message = data?.messages?.[0];
-    if (!message) {
+    // Extrair informações da mensagem (estrutura Evolution API)
+    if (!data?.key) {
       return NextResponse.json({
         success: true,
         message: 'No message data'
@@ -39,16 +38,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Ignorar mensagens enviadas pelo próprio bot
-    if (message.key?.fromMe) {
+    if (data.key.fromMe) {
       return NextResponse.json({
         success: true,
         message: 'Message from bot ignored'
       });
     }
 
-    const remoteJid = message.key?.remoteJid;
-    const messageText = message.message?.conversation ||
-                        message.message?.extendedTextMessage?.text ||
+    const remoteJid = data.key.remoteJid;
+    const messageText = data.message?.conversation ||
+                        data.message?.extendedTextMessage?.text ||
                         '';
 
     console.log('📱 Mensagem recebida:', {
