@@ -13,6 +13,8 @@ export const WhatsAppConfig: React.FC = () => {
   const [mode, setMode] = useState<'meta' | 'web'>('web');
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [connectionStatus, setConnectionStatus] = useState<'idle' | 'checking' | 'success' | 'error'>('idle');
+  const [statusMessage, setStatusMessage] = useState('');
   const [config, setConfig] = useState({
     typing_indicator: true,
     auto_read: true,
@@ -27,9 +29,8 @@ export const WhatsAppConfig: React.FC = () => {
 
   // Evolution API (WhatsApp Web)
   const [evolutionEndpoint, setEvolutionEndpoint] = useState('');
-  const [instanceId, setInstanceId] = useState('');
+  const [instanceName, setInstanceName] = useState('');
   const [apiKey, setApiKey] = useState('');
-  const [qrCode, setQrCode] = useState('');
 
   // Meta API (WhatsApp Business)
   const [phoneNumberId, setPhoneNumberId] = useState('');
@@ -51,7 +52,7 @@ export const WhatsAppConfig: React.FC = () => {
 
         if (savedConfig.mode === 'web') {
           setEvolutionEndpoint(savedConfig.evolutionEndpoint || '');
-          setInstanceId(savedConfig.instanceId || '');
+          setInstanceName(savedConfig.instanceId || '');
           setApiKey(savedConfig.apiKey || '');
         } else {
           setPhoneNumberId(savedConfig.phoneNumberId || '');
@@ -73,9 +74,52 @@ export const WhatsAppConfig: React.FC = () => {
     }
   };
 
+  const testConnection = async () => {
+    try {
+      setConnectionStatus('checking');
+      setStatusMessage('Testando conexão com Evolution API...');
+
+      // Testa conexão com Evolution API
+      const testResponse = await fetch(`${evolutionEndpoint}/instance/fetchInstances`, {
+        method: 'GET',
+        headers: {
+          'apikey': apiKey
+        }
+      });
+
+      if (!testResponse.ok) {
+        throw new Error('Falha ao conectar com Evolution API. Verifique endpoint e API key.');
+      }
+
+      const instances = await testResponse.json();
+      const instance = instances.find((inst: any) => inst.instance.instanceName === instanceName);
+
+      if (!instance) {
+        throw new Error(`Instância "${instanceName}" não encontrada. Verifique o nome da instância.`);
+      }
+
+      setConnectionStatus('success');
+      setStatusMessage(`✅ Conectado à instância "${instanceName}" com sucesso!`);
+    } catch (error: any) {
+      setConnectionStatus('error');
+      setStatusMessage(`❌ ${error.message}`);
+    }
+  };
+
   const handleConnect = async () => {
     try {
       setIsSaving(true);
+      setConnectionStatus('checking');
+      setStatusMessage('Salvando configuração...');
+
+      // Validação básica
+      if (mode === 'web') {
+        if (!evolutionEndpoint || !instanceName || !apiKey) {
+          setConnectionStatus('error');
+          setStatusMessage('❌ Preencha todos os campos obrigatórios');
+          return;
+        }
+      }
 
       // Salva no banco de dados
       const response = await fetch('/api/channels/whatsapp', {
@@ -86,7 +130,7 @@ export const WhatsAppConfig: React.FC = () => {
         body: JSON.stringify({
           mode,
           evolutionEndpoint,
-          instanceId,
+          instanceId: instanceName,
           apiKey,
           phoneNumberId,
           accessToken,
@@ -97,18 +141,20 @@ export const WhatsAppConfig: React.FC = () => {
       const result = await response.json();
 
       if (result.success) {
+        setConnectionStatus('success');
         if (mode === 'web') {
-          alert('✅ Configuração Evolution API salva com sucesso!\n\n🔄 Conectando ao Evolution API...\n\nAguarde o QR Code aparecer para escanear com seu WhatsApp.');
-          setQrCode('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
+          setStatusMessage('✅ Evolution API conectada! Webhook configurado e pronto para receber mensagens.');
         } else {
-          alert('✅ Configuração WhatsApp Business salva com sucesso!\n\nSeu agente está pronto para receber mensagens.');
+          setStatusMessage('✅ WhatsApp Business configurado! Seu agente está pronto para receber mensagens.');
         }
       } else {
-        alert(`❌ Erro ao salvar: ${result.error}`);
+        setConnectionStatus('error');
+        setStatusMessage(`❌ Erro: ${result.error}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao conectar:', error);
-      alert('❌ Erro ao salvar configuração. Verifique o console.');
+      setConnectionStatus('error');
+      setStatusMessage(`❌ Erro ao salvar: ${error.message || 'Erro desconhecido'}`);
     } finally {
       setIsSaving(false);
     }
@@ -177,14 +223,15 @@ export const WhatsAppConfig: React.FC = () => {
                 label="Evolution API Endpoint"
                 value={evolutionEndpoint}
                 onChange={(e) => setEvolutionEndpoint(e.target.value)}
-                placeholder="https://api.evolution.com"
-                helperText="URL do seu servidor Evolution API"
+                placeholder="https://evo.redpro.com.br"
+                helperText="URL do seu servidor Evolution API (sem barra no final)"
               />
               <Input
-                label="Instance ID"
-                value={instanceId}
-                onChange={(e) => setInstanceId(e.target.value)}
-                placeholder="nexus-instance-001"
+                label="Nome da Instância"
+                value={instanceName}
+                onChange={(e) => setInstanceName(e.target.value)}
+                placeholder="Nexus"
+                helperText="Nome da instância configurada na Evolution API (não é o ID/Token)"
               />
               <Input
                 label="API Key"
@@ -192,17 +239,44 @@ export const WhatsAppConfig: React.FC = () => {
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 placeholder="••••••••••••••••"
+                helperText="API Key global da Evolution API"
               />
 
-              {qrCode && (
-                <div className="bg-bg-tertiary border-2 border-green-500 rounded-lg p-6 text-center">
-                  <QrCode size={120} className="mx-auto mb-4 text-green-500" />
-                  <p className="text-sm font-semibold text-text-primary mb-2">
-                    Escaneie o QR Code com seu WhatsApp
-                  </p>
-                  <p className="text-xs text-text-muted">
-                    Abra o WhatsApp → Aparelhos conectados → Conectar um aparelho
-                  </p>
+              {/* Status de Conexão */}
+              {connectionStatus !== 'idle' && (
+                <div className={`glass-card p-4 border-2 ${
+                  connectionStatus === 'success' ? 'border-green-500' :
+                  connectionStatus === 'error' ? 'border-red-500' :
+                  'border-accent-cyan'
+                }`}>
+                  <div className="flex items-start gap-3">
+                    <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${
+                      connectionStatus === 'success' ? 'bg-green-500/20' :
+                      connectionStatus === 'error' ? 'bg-red-500/20' :
+                      'bg-accent-cyan/20'
+                    }`}>
+                      {connectionStatus === 'checking' && (
+                        <div className="w-5 h-5 border-2 border-accent-cyan border-t-transparent rounded-full animate-spin" />
+                      )}
+                      {connectionStatus === 'success' && (
+                        <CheckCircle2 size={20} className="text-green-500" />
+                      )}
+                      {connectionStatus === 'error' && (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                          <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <p className={`text-sm font-semibold ${
+                        connectionStatus === 'success' ? 'text-green-500' :
+                        connectionStatus === 'error' ? 'text-red-500' :
+                        'text-accent-cyan'
+                      }`}>
+                        {statusMessage}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -313,14 +387,21 @@ export const WhatsAppConfig: React.FC = () => {
       </Card>
 
       <div className="flex justify-end gap-3">
-        <Button variant="secondary">
-          Testar Conexão
-        </Button>
+        {mode === 'web' && (
+          <Button
+            variant="secondary"
+            onClick={testConnection}
+            disabled={!evolutionEndpoint || !instanceName || !apiKey || connectionStatus === 'checking'}
+          >
+            {connectionStatus === 'checking' ? 'Testando...' : 'Testar Conexão'}
+          </Button>
+        )}
         <Button
           variant="primary"
           icon={<CheckCircle2 size={18} />}
           onClick={handleConnect}
           loading={isSaving}
+          disabled={connectionStatus === 'checking'}
         >
           {isSaving ? 'Salvando...' : 'Conectar WhatsApp'}
         </Button>
