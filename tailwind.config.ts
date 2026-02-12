@@ -27,8 +27,5 @@ const config: Config = {
     },
   },
   plugins: [],
-  corePlugins: {
-    preflight: false, // Desabilita o reset do Tailwind para não conflitar com nosso CSS
-  },
 };
 export default config;
