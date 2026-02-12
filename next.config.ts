@@ -1,8 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  reactCompiler: true,
+  reactCompiler: false,
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  turbopack: {},
+  webpack: (config) => {
+    config.watchOptions = {
+      poll: false,
+      aggregateTimeout: 300,
+      ignored: /node_modules/,
+    };
+    return config;
+  },
 };
 
 export default nextConfig;

@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+
+# uploads temporários
+/public/uploads
+
+# arquivos de sistema Windows
+Thumbs.db
+desktop.ini
+nul
