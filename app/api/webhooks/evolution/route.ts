@@ -77,10 +77,20 @@ export async function POST(request: NextRequest) {
     const config = channel.config as any;
 
     // Validar se a mensagem é da instância correta
+    console.log('🔍 Validando instance:', {
+      received: instance,
+      configured: config.instanceId,
+      match: config.instanceId === instance
+    });
+
     if (config.instanceId !== instance) {
       return NextResponse.json({
         success: true,
-        message: 'Instance mismatch'
+        message: 'Instance mismatch',
+        debug: {
+          received: instance,
+          configured: config.instanceId
+        }
       });
     }
 
