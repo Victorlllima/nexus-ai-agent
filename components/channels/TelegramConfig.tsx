@@ -5,8 +5,8 @@ import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Toggle } from '@/components/ui/Toggle';
 import { Button } from '@/components/ui/Button';
-import { Send, TelegramIcon } from '@/components/icons/BrandIcons';
-import { CheckCircle2 } from 'lucide-react';
+import { TelegramIcon } from '@/components/icons/BrandIcons';
+import { CheckCircle2, Send } from 'lucide-react';
 
 export const TelegramConfig: React.FC = () => {
   const [botToken, setBotToken] = useState('');
