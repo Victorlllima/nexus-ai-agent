@@ -21,12 +21,6 @@ export async function GET(request: NextRequest) {
     // Por enquanto, usa email fixo para desenvolvimento
     const userEmail = 'admin@nexus.ai';
 
-    // Configurar contexto de usuário para RLS
-    await supabase.rpc('set_config', {
-      key: 'app.current_user_email',
-      value: userEmail
-    });
-
     const { data: workspaces, error } = await supabase
       .from('workspaces')
       .select('*')
