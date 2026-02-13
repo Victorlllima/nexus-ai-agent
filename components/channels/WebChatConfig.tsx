@@ -10,7 +10,7 @@ import { Copy, Eye } from 'lucide-react';
 
 export const WebChatConfig: React.FC = () => {
   const [config, setConfig] = useState({
-    widget_color: '#121212',
+    widget_color: '#9333ea',
     widget_position: 'bottom-right' as 'bottom-right' | 'bottom-left',
     welcome_message: 'Olá! Como posso ajudar você hoje?',
     placeholder: 'Digite sua mensagem...',

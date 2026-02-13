@@ -16,9 +16,9 @@ export const NexusLogo: React.FC<LogoProps> = ({ size = 56 }) => {
       {/* Background gradient circle */}
       <defs>
         <linearGradient id="nexus-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#1a1a1a' }} />
-          <stop offset="50%" style={{ stopColor: '#121212' }} />
-          <stop offset="100%" style={{ stopColor: '#0a0a0a' }} />
+          <stop offset="0%" style={{ stopColor: '#9333ea' }} />
+          <stop offset="50%" style={{ stopColor: '#7e22ce' }} />
+          <stop offset="100%" style={{ stopColor: '#6b21a8' }} />
         </linearGradient>
         <linearGradient id="nexus-accent" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{ stopColor: '#06b6d4' }} />
