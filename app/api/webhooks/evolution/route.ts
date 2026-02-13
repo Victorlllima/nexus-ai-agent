@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { hasCredits, deductCredits, recordInteraction } from '@/lib/credits';
 
 function getSupabaseClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -93,8 +94,31 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // TODO: Integrar com Mastra para processar a mensagem
-    // Por enquanto, apenas loga e responde com echo
+    // Verificar créditos antes de processar
+    const creditsRequired = 1; // Echo simples = 1 crédito
+    const workspaceId = channel.workspace_id;
+
+    const canProceed = await hasCredits(workspaceId, creditsRequired);
+    if (!canProceed) {
+      console.log('❌ Créditos insuficientes');
+      // Enviar mensagem de aviso
+      await fetch(`${config.evolutionEndpoint}/message/sendText/${instance}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': config.apiKey
+        },
+        body: JSON.stringify({
+          number: remoteJid,
+          text: '⚠️ Créditos insuficientes. Por favor, recarregue seu saldo para continuar usando o serviço.'
+        })
+      });
+      return NextResponse.json({
+        success: false,
+        error: 'Insufficient credits'
+      }, { status: 402 });
+    }
+
     console.log('✅ Mensagem válida para processamento');
 
     // Enviar resposta de teste via Evolution API
@@ -121,14 +145,18 @@ export async function POST(request: NextRequest) {
       console.log('✅ Resposta enviada com sucesso');
     }
 
+    // Descontar créditos (admins não são descontados automaticamente)
+    await deductCredits(workspaceId, creditsRequired);
+
     // Salvar interação no Supabase
-    await supabase.from('interactions').insert({
-      agent_id: channel.agent_id,
-      channel_id: channel.id,
-      user_message: messageText,
-      agent_response: responseText,
-      credits_used: 1
-    });
+    await recordInteraction(
+      workspaceId,
+      channel.agent_id,
+      channel.id,
+      messageText,
+      responseText,
+      creditsRequired
+    );
 
     return NextResponse.json({
       success: true,

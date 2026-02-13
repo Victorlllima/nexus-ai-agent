@@ -10,6 +10,7 @@ interface Workspace {
   name: string;
   plan: 'free' | 'pro' | 'enterprise';
   credits_balance: number;
+  is_admin: boolean;
 }
 
 export const WorkspaceSwitcher: React.FC = () => {
@@ -100,7 +101,12 @@ export const WorkspaceSwitcher: React.FC = () => {
       {selectedWorkspace && (
         <div className="px-3 py-1 bg-bg-tertiary rounded text-xs">
           <span className="text-text-muted">Créditos:</span>{' '}
-          <span className="font-bold text-accent-cyan">{selectedWorkspace.credits_balance}</span>
+          <span className={`font-bold ${selectedWorkspace.is_admin ? 'text-accent-gold' : 'text-accent-cyan'}`}>
+            {selectedWorkspace.is_admin ? '∞' : selectedWorkspace.credits_balance}
+          </span>
+          {selectedWorkspace.is_admin && (
+            <span className="ml-1 text-accent-gold">👑</span>
+          )}
         </div>
       )}
 

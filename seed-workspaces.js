@@ -20,19 +20,22 @@ async function seed() {
         name: 'Red - Workspace Principal',
         owner_email: 'admin@nexus.ai',
         plan: 'enterprise',
-        credits_balance: 10000
+        credits_balance: 999999,
+        is_admin: true // Admin = créditos ilimitados!
       },
       {
         name: 'Cliente Teste - Acme Corp',
         owner_email: 'admin@nexus.ai',
         plan: 'pro',
-        credits_balance: 1000
+        credits_balance: 1000,
+        is_admin: false
       },
       {
         name: 'Cliente Free - Startup XYZ',
         owner_email: 'admin@nexus.ai',
         plan: 'free',
-        credits_balance: 100
+        credits_balance: 100,
+        is_admin: false
       }
     ])
     .select();
@@ -43,7 +46,9 @@ async function seed() {
   }
 
   workspaces.forEach((ws, i) => {
-    console.log(`✅ Workspace ${i + 1} criado: ${ws.name} (${ws.plan.toUpperCase()}) - ${ws.credits_balance} créditos`);
+    const credits = ws.is_admin ? '∞ ILIMITADOS' : `${ws.credits_balance} créditos`;
+    const adminBadge = ws.is_admin ? '👑 ADMIN' : '';
+    console.log(`✅ Workspace ${i + 1}: ${ws.name} (${ws.plan.toUpperCase()}) ${adminBadge} - ${credits}`);
   });
 
   console.log('\n🎉 Seed completo!');
