@@ -13,15 +13,15 @@ export const InstagramConfig: React.FC = () => {
   const [webhookUrl, setWebhookUrl] = useState('');
 
   return (
-    <div className="flex flex-col gap-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <Card>
-        <div className="p-6">
+        <div style={{ padding: '1.5rem' }}>
           <h3 className="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
             <InstagramIcon size={24} />
             Configuração Instagram DM
           </h3>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div className="bg-pink-500/10 border border-pink-500/30 rounded-lg p-4">
               <h4 className="text-sm font-bold text-pink-400 mb-2">Requisitos</h4>
               <ul className="text-xs text-text-muted space-y-1 list-disc list-inside">
@@ -68,7 +68,7 @@ export const InstagramConfig: React.FC = () => {
         </div>
       </Card>
 
-      <div className="flex justify-end">
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
           variant="primary"
           icon={<CheckCircle2 size={18} />}

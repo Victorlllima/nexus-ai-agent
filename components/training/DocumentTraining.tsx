@@ -62,15 +62,15 @@ export const DocumentTraining: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <Card>
-        <div className="p-6">
+        <div style={{ padding: '1.5rem' }}>
           <h3 className="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
             <FileText size={20} className="text-accent-gold" />
             Upload de Documentos
           </h3>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <FileUpload
               accept=".pdf,.docx,.txt"
               maxSize={100}
@@ -79,7 +79,7 @@ export const DocumentTraining: React.FC = () => {
               onClear={() => setDocument(null)}
             />
 
-            <div className="bg-bg-tertiary border border-border-subtle rounded-lg p-4">
+            <div style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '1rem' }}>
               <h4 className="text-sm font-bold text-text-secondary mb-2">Formatos Suportados</h4>
               <ul className="text-xs text-text-muted space-y-1">
                 <li>• <span className="text-red-400 font-semibold">PDF</span> - Documentos escaneados ou digitais</li>
@@ -96,9 +96,9 @@ export const DocumentTraining: React.FC = () => {
 
       {processedDocs.length > 0 && (
         <Card>
-          <div className="p-6">
+          <div style={{ padding: '1.5rem' }}>
             <h4 className="text-sm font-bold text-text-secondary mb-4">Documentos Processados</h4>
-            <div className="space-y-3">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {processedDocs.map((doc, index) => (
                 <div
                   key={index}
@@ -111,7 +111,7 @@ export const DocumentTraining: React.FC = () => {
                       <Loader2 size={20} className="text-accent-purple animate-spin mt-0.5 flex-shrink-0" />
                     )}
                     <div className="flex-1">
-                      <p className="text-sm font-semibold text-text-primary">{doc.filename}</p>
+                      <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>{doc.filename}</p>
                       <div className="flex gap-4 mt-1">
                         <span className="text-xs text-text-muted">
                           Tamanho: <span className="text-text-secondary">{formatFileSize(doc.size)}</span>
@@ -145,7 +145,7 @@ export const DocumentTraining: React.FC = () => {
         </Card>
       )}
 
-      <div className="flex justify-end">
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
           variant="primary"
           icon={isProcessing ? <Loader2 size={18} className="animate-spin" /> : <FileText size={18} />}

@@ -18,15 +18,15 @@ export const TelegramConfig: React.FC = () => {
   const [groupMessages, setGroupMessages] = useState(false);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <Card>
-        <div className="p-6">
+        <div style={{ padding: '1.5rem' }}>
           <h3 className="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
             <TelegramIcon size={24} />
             Configuração Telegram Bot
           </h3>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
               <h4 className="text-sm font-bold text-blue-400 mb-2">Como criar um bot no Telegram?</h4>
               <ol className="text-xs text-text-muted space-y-1 list-decimal list-inside">
@@ -65,10 +65,10 @@ export const TelegramConfig: React.FC = () => {
       </Card>
 
       <Card>
-        <div className="p-6">
+        <div style={{ padding: '1.5rem' }}>
           <h4 className="text-sm font-bold text-text-secondary mb-4">Comandos Customizados</h4>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <Input
               label="Comando /start"
               value={commands.start}
@@ -86,7 +86,7 @@ export const TelegramConfig: React.FC = () => {
         </div>
       </Card>
 
-      <div className="flex justify-end">
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
           variant="primary"
           icon={<CheckCircle2 size={18} />}

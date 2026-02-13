@@ -36,15 +36,15 @@ export const ElevenLabsConfig: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <Card>
-        <div className="p-6">
+        <div style={{ padding: '1.5rem' }}>
           <h3 className="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
             <ElevenLabsIcon size={24} />
             ElevenLabs Text-to-Speech
           </h3>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div className="bg-accent-purple/10 border border-accent-purple/30 rounded-lg p-4">
               <h4 className="text-sm font-bold text-accent-purple-hover mb-2">Como obter a API Key?</h4>
               <ol className="text-xs text-text-muted space-y-1 list-decimal list-inside">
@@ -91,10 +91,10 @@ export const ElevenLabsConfig: React.FC = () => {
       </Card>
 
       <Card>
-        <div className="p-6">
+        <div style={{ padding: '1.5rem' }}>
           <h4 className="text-sm font-bold text-text-secondary mb-4">Testar Voz</h4>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <Input
               label="Texto de Teste"
               value={testText}
@@ -114,7 +114,7 @@ export const ElevenLabsConfig: React.FC = () => {
         </div>
       </Card>
 
-      <div className="flex justify-end">
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
           variant="primary"
           icon={<CheckCircle2 size={18} />}

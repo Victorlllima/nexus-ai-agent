@@ -111,10 +111,10 @@ export const TabHistory: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Filtros */}
       <Card>
-        <div className="p-6">
+        <div style={{ padding: '1.5rem' }}>
           <h3 className="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
             <History size={20} className="text-accent-purple" />
             Histórico de Interações
@@ -175,7 +175,7 @@ export const TabHistory: React.FC = () => {
       </Card>
 
       {/* Lista de Interações */}
-      <div className="space-y-3">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
         {filteredInteractions.length === 0 ? (
           <Card>
             <div className="p-12 text-center">
@@ -206,7 +206,7 @@ export const TabHistory: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="space-y-3">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   <div className="bg-bg-tertiary border-l-4 border-accent-cyan rounded-lg p-3">
                     <p className="text-xs font-bold uppercase tracking-wide text-text-muted mb-1">
                       Mensagem do Usuário

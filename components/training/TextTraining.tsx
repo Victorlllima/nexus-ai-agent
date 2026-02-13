@@ -28,17 +28,17 @@ export const TextTraining: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <Card>
-        <div className="p-6">
-          <h3 className="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
+        <div style={{ padding: '1.5rem' }}>
+          <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <ImageIcon size={20} className="text-accent-purple" />
             Instrução com Imagem (Opcional)
           </h3>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wide text-text-secondary mb-2">
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
                 Instrução Afirmativa
               </label>
               <textarea
@@ -49,7 +49,7 @@ export const TextTraining: React.FC = () => {
                 className="input-premium w-full"
                 style={{ resize: 'vertical' }}
               />
-              <p className="text-xs text-text-muted mt-1">
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
                 Escreva instruções claras e específicas sobre quando e como o agente deve usar essa informação.
               </p>
             </div>
@@ -70,7 +70,7 @@ export const TextTraining: React.FC = () => {
         </div>
       </Card>
 
-      <div className="flex justify-end">
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
           variant="primary"
           icon={<Save size={18} />}

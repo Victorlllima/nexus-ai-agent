@@ -68,13 +68,13 @@ export const TabSettingsExpanded: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Funcionalidades Principais */}
       <Card>
-        <div className="p-6">
-          <h3 className="text-lg font-bold text-text-primary mb-4">Funcionalidades Principais</h3>
+        <div style={{ padding: '1.5rem' }}>
+          <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>Funcionalidades Principais</h3>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <Toggle
               checked={settings.human_handoff}
               onChange={(val) => setSettings({...settings, human_handoff: val})}
@@ -92,7 +92,7 @@ export const TabSettingsExpanded: React.FC = () => {
               />
             )}
 
-            <div className="h-px bg-border-subtle" />
+            <div style={{ height: '1px', background: 'var(--border-subtle)' }} />
 
             <Toggle
               checked={settings.use_emojis}
@@ -101,7 +101,7 @@ export const TabSettingsExpanded: React.FC = () => {
               description="Define se o agente pode utilizar emojis em suas respostas"
             />
 
-            <div className="h-px bg-border-subtle" />
+            <div style={{ height: '1px', background: 'var(--border-subtle)' }} />
 
             <Toggle
               checked={settings.signature_enabled}
@@ -119,7 +119,7 @@ export const TabSettingsExpanded: React.FC = () => {
               />
             )}
 
-            <div className="h-px bg-border-subtle" />
+            <div style={{ height: '1px', background: 'var(--border-subtle)' }} />
 
             <Toggle
               checked={settings.scope_restriction}
@@ -137,7 +137,7 @@ export const TabSettingsExpanded: React.FC = () => {
               />
             )}
 
-            <div className="h-px bg-border-subtle" />
+            <div style={{ height: '1px', background: 'var(--border-subtle)' }} />
 
             <Toggle
               checked={settings.split_responses}
@@ -158,7 +158,7 @@ export const TabSettingsExpanded: React.FC = () => {
               />
             )}
 
-            <div className="h-px bg-border-subtle" />
+            <div style={{ height: '1px', background: 'var(--border-subtle)' }} />
 
             <Toggle
               checked={settings.allow_reminders}
@@ -172,10 +172,10 @@ export const TabSettingsExpanded: React.FC = () => {
 
       {/* Timing e Configurações Avançadas */}
       <Card>
-        <div className="p-6">
-          <h3 className="text-lg font-bold text-text-primary mb-4">Timing e Limites</h3>
+        <div style={{ padding: '1.5rem' }}>
+          <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>Timing e Limites</h3>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <Select
               label="Timezone do Agente"
               options={timezones}
@@ -194,7 +194,7 @@ export const TabSettingsExpanded: React.FC = () => {
               unit=" segundos"
               showValue
             />
-            <p className="text-xs text-text-muted -mt-2">
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '-0.5rem' }}>
               Defina um intervalo para o agente esperar e dar uma resposta (buffer para múltiplas mensagens)
             </p>
 
@@ -215,7 +215,7 @@ export const TabSettingsExpanded: React.FC = () => {
               unit=" interações"
               showValue
             />
-            <p className="text-xs text-text-muted -mt-2">
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '-0.5rem' }}>
               Defina a quantidade de interações que o agente pode aceitar por atendimento
             </p>
           </div>
@@ -224,9 +224,9 @@ export const TabSettingsExpanded: React.FC = () => {
 
       {/* Ações de Inatividade */}
       <Card>
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-bold text-text-primary">Ações de Inatividade</h3>
+        <div style={{ padding: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+            <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)' }}>Ações de Inatividade</h3>
             <Button
               variant="secondary"
               icon={<Plus size={16} />}
@@ -236,26 +236,28 @@ export const TabSettingsExpanded: React.FC = () => {
             </Button>
           </div>
 
-          <p className="text-sm text-text-muted mb-4">
+          <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
             Configure ações que o agente deve executar quando o cliente parar de responder
           </p>
 
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {inactivityActions.map((action) => (
-              <div key={action.id} className="bg-bg-tertiary border border-border-subtle rounded-lg p-4">
-                <div className="flex items-start justify-between mb-3">
-                  <h4 className="text-sm font-semibold text-text-primary">
+              <div key={action.id} style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '1rem' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+                  <h4 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                     Se não responder em {action.timeoutMinutes} minutos
                   </h4>
                   <button
                     onClick={() => removeInactivityAction(action.id)}
-                    className="text-red-400 hover:text-red-300 transition-colors"
+                    style={{ color: '#f87171', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.2s' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#fca5a5'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#f87171'}
                   >
                     <Trash2 size={16} />
                   </button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                   <Input
                     label="Minutos"
                     type="number"
@@ -297,7 +299,7 @@ export const TabSettingsExpanded: React.FC = () => {
                       setInactivityActions(updated);
                     }}
                     placeholder="Ex: Ainda está aí? Posso ajudar em mais alguma coisa?"
-                    className="mt-3"
+                    style={{ marginTop: '0.75rem' }}
                   />
                 )}
               </div>
@@ -308,21 +310,21 @@ export const TabSettingsExpanded: React.FC = () => {
 
       {/* Regras de Transferência */}
       <Card>
-        <div className="p-6">
-          <h3 className="text-lg font-bold text-text-primary mb-4">Regras de Transferência</h3>
+        <div style={{ padding: '1.5rem' }}>
+          <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>Regras de Transferência</h3>
 
-          <p className="text-sm text-text-muted mb-4">
+          <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
             Configure instruções para o agente fazer transferência do atendimento
           </p>
 
-          <div className="space-y-3">
-            <div className="bg-bg-tertiary border border-border-subtle rounded-lg p-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <div style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '1rem' }}>
               <Input
                 label="Condição para Transferência"
                 value="cliente pedir atendimento humano"
                 placeholder="Ex: quando o cliente pedir para falar com um humano"
               />
-              <p className="text-xs text-text-muted mt-2">
+              <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
                 O agente identificará automaticamente quando essa condição for atendida
               </p>
             </div>

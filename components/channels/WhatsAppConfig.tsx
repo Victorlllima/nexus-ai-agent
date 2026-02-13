@@ -161,10 +161,10 @@ export const WhatsAppConfig: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Seletor de Modo */}
       <Card>
-        <div className="p-6">
+        <div style={{ padding: '1.5rem' }}>
           <h3 className="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
             <WhatsAppIcon size={20} />
             Configuração WhatsApp
@@ -196,7 +196,7 @@ export const WhatsAppConfig: React.FC = () => {
           </div>
 
           {mode === 'web' ? (
-            <div className="space-y-4">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {/* Webhook URL para cadastrar na Evolution */}
               <div className="glass-card p-4 border-2 border-accent-cyan">
                 <div className="flex items-start gap-3">
@@ -281,7 +281,7 @@ export const WhatsAppConfig: React.FC = () => {
               )}
             </div>
           ) : (
-            <div className="space-y-4">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <Input
                 label="Phone Number ID"
                 value={phoneNumberId}
@@ -304,10 +304,10 @@ export const WhatsAppConfig: React.FC = () => {
 
       {/* Configurações do Canal */}
       <Card>
-        <div className="p-6">
+        <div style={{ padding: '1.5rem' }}>
           <h4 className="text-sm font-bold text-text-secondary mb-4">Comportamento do Canal</h4>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <Toggle
               checked={config.typing_indicator}
               onChange={(val) => setConfig({...config, typing_indicator: val})}
@@ -337,7 +337,7 @@ export const WhatsAppConfig: React.FC = () => {
             />
 
             <div className="pt-2">
-              <label className="block text-xs font-bold uppercase tracking-wide text-text-secondary mb-2">
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
                 Processamento de Áudio
               </label>
               <Select
@@ -352,7 +352,7 @@ export const WhatsAppConfig: React.FC = () => {
             </div>
 
             <div className="pt-2">
-              <label className="block text-xs font-bold uppercase tracking-wide text-text-secondary mb-2">
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
                 Gerenciamento de Chamadas
               </label>
               <Select

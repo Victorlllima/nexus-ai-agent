@@ -47,15 +47,15 @@ Conteúdo será salvo na base de conhecimento do agente.`);
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <Card>
-        <div className="p-6">
+        <div style={{ padding: '1.5rem' }}>
           <h3 className="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
             <Globe size={20} className="text-accent-cyan" />
             Scraping de Website
           </h3>
 
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <Input
               label="URL do Website"
               type="url"
@@ -85,7 +85,7 @@ Conteúdo será salvo na base de conhecimento do agente.`);
 
       {preview && (
         <Card>
-          <div className="p-6">
+          <div style={{ padding: '1.5rem' }}>
             <h4 className="text-sm font-bold text-text-secondary mb-2">Preview do Conteúdo</h4>
             <pre className="bg-bg-primary border border-border-subtle rounded-lg p-4 text-xs text-text-primary whitespace-pre-wrap">
               {preview}
@@ -94,7 +94,7 @@ Conteúdo será salvo na base de conhecimento do agente.`);
         </Card>
       )}
 
-      <div className="flex justify-end">
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
           variant="primary"
           icon={isProcessing ? <Loader2 size={18} className="animate-spin" /> : <Globe size={18} />}

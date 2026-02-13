@@ -92,10 +92,10 @@ export const TabBilling: React.FC = () => {
   const selectedMultiplier = multipliers.find(m => m.level === selectedLevel)!;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* Saldo Atual */}
       <Card>
-        <div className="p-6">
+        <div style={{ padding: '1.5rem' }}>
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-sm font-bold uppercase tracking-wide text-text-muted mb-2">
@@ -148,8 +148,8 @@ export const TabBilling: React.FC = () => {
 
       {/* Multiplicador de Contexto */}
       <Card>
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-4">
+        <div style={{ padding: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
             <h3 className="text-lg font-bold text-text-primary flex items-center gap-2">
               <Zap size={20} className="text-accent-gold" />
               Multiplicador de Contexto
@@ -315,7 +315,7 @@ export const TabBilling: React.FC = () => {
 
       {/* Histórico de Transações */}
       <Card>
-        <div className="p-6">
+        <div style={{ padding: '1.5rem' }}>
           <h3 className="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
             <TrendingUp size={20} className="text-accent-cyan" />
             Histórico de Transações
@@ -330,7 +330,7 @@ export const TabBilling: React.FC = () => {
                 <div className="flex items-center gap-4">
                   <CreditCard size={20} className={transaction.type === 'Compra' ? 'text-green-400' : 'text-red-400'} />
                   <div>
-                    <p className="text-sm font-semibold text-text-primary">
+                    <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                       {transaction.type}
                     </p>
                     <p className="text-xs text-text-muted">
